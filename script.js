@@ -82,7 +82,7 @@ generateButton.addEventListener("click", function () {
   }
 
   for (let i = 0; i < charLengthSlider.value; i++) {
-    let characterIndex = Math.floor(Math.random() * characterPool.length);
+    const characterIndex = Math.floor(Math.random() * characterPool.length);
     // Think of Math.random() as the slider handle position (0% to 100%). Multiplying by length gives us the exact spot in the pool.
     password += characterPool[characterIndex];
   }

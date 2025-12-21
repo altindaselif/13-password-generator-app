@@ -24,12 +24,12 @@
   </head>
   <body>
     <main class="generator-container">
-      <p class="generator-header">Password Generator</p>
+      <h1 class="generator-header">Password Generator</h1>
       <section class="password-container">
         <p class="password-output">P4$5W0rD!</p>
         <div class="copy-container">
           <p class="copy-info">COPIED</p>
-          <button class="copy-button" aria-label="Copy Password">
+          <button type="button" class="copy-button" aria-label="Copy Password">
             <svg
               class="copy-img"
               width="21"
@@ -56,6 +56,8 @@
               max="20"
               value="10"
               id="length-slider"
+              class="length-slider"
+              aria-label="Character Length"
             />
           </div>
         </div>
@@ -113,7 +115,7 @@
         </div>
         <div class="container-row">
           <button class="generate-button">
-            <p class="button-text">GENERATE</p>
+            <span class="button-text">GENERATE</span>
             <svg
               class="button-icon"
               width="12"

@@ -142,7 +142,7 @@ body {
 }
 
 /* --- SLIDER PART --- */
-#length-slider {
+.length-slider {
   width: 100%;
   height: 0.8rem;
   appearance: none;
@@ -158,23 +158,21 @@ body {
 }
 
 /* Track for Chrome and Safari */
-#length-slider::-webkit-slider-runnable-track {
+.length-slider::-webkit-slider-runnable-track {
   background: transparent;
   height: 0.8rem;
 }
 
 /* Track for Firefox */
-#length-slider::-moz-range-track {
+.length-slider::-moz-range-track {
   background: transparent;
   height: 0.8rem;
 }
 
 /* Thumb for Chrome and Safari */
-#length-slider::-webkit-slider-thumb {
+.length-slider::-webkit-slider-thumb {
   height: 2.8rem;
   width: 2.8rem;
-  appearance: none;
-  -webkit-appearance: none;
   border-radius: 50%;
   background-color: var(--grey-200);
   border: 0.2rem solid var(--grey-200);
@@ -182,7 +180,7 @@ body {
 }
 
 /* Thumb for Firefox */
-#length-slider::-moz-range-thumb {
+.length-slider::-moz-range-thumb {
   height: 2.8rem;
   width: 2.8rem;
   border-radius: 50%;
@@ -192,15 +190,15 @@ body {
 }
 
 /* Hover ve Active for Chrome and Safari */
-#length-slider::-webkit-slider-thumb:hover,
-#length-slider:active::-webkit-slider-thumb {
+.length-slider::-webkit-slider-thumb:hover,
+.length-slider:active::-webkit-slider-thumb {
   background-color: var(--black);
   border: 0.2rem solid var(--green-200);
 }
 
 /* Hover ve Active for Firefox */
-#length-slider::-moz-range-thumb:hover,
-#length-slider:active::-moz-range-thumb {
+.length-slider::-moz-range-thumb:hover,
+.length-slider:active::-moz-range-thumb {
   background-color: var(--black);
   border: 0.2rem solid var(--green-200);
 }
