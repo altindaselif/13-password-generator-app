@@ -11,8 +11,8 @@ const checkboxLowercase = document.getElementById("check-lowercase");
 const checkboxNumbers = document.getElementById("check-numbers");
 const checkboxSymbols = document.getElementById("check-symbols");
 
-const strengthContainer = document.querySelector(".strength-level");
-const strengthInfo = document.querySelector(".level-info");
+const strengthLevelContainer = document.querySelector(".strength-level");
+const strengthLevelInfo = document.querySelector(".level-info");
 const generateButton = document.querySelector(".generate-button");
 
 const uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -20,55 +20,51 @@ const lowercaseLetters = "abcdefghijklmnopqrstuvwxyz";
 const numbers = "0123456789";
 const symbols = "!@#$%^&*()_+?=";
 
-const calculateStrength = function () {
+const calculateStrength = () => {
   let countStrength = 0;
   const charLength = parseInt(charLengthSlider.value);
 
-  if (checkboxUppercase.checked) countStrength++;
-  if (checkboxLowercase.checked) countStrength++;
-  if (checkboxNumbers.checked) countStrength++;
-  if (checkboxSymbols.checked) countStrength++;
+  allCheckboxes.forEach((checkbox) => {
+    if (checkbox.checked) countStrength++;
+  });
 
-  strengthContainer.classList.remove("too-weak", "weak", "medium", "strong");
-  strengthInfo.textContent = "";
+  strengthLevelContainer.classList.remove(
+    "too-weak",
+    "weak",
+    "medium",
+    "strong",
+  );
+  strengthLevelInfo.textContent = "";
 
   if (charLength < 6 && countStrength > 0) {
     countStrength = 1;
   }
-  if (countStrength === 1) {
-    strengthContainer.classList.add("too-weak");
-    strengthInfo.textContent = "TOO WEAK";
-  }
-  if (countStrength === 2) {
-    strengthContainer.classList.add("weak");
-    strengthInfo.textContent = "WEAK";
-  }
-  if (countStrength === 3) {
-    strengthContainer.classList.add("medium");
-    strengthInfo.textContent = "MEDIUM";
-  }
-  if (countStrength === 4) {
-    strengthContainer.classList.add("strong");
-    strengthInfo.textContent = "STRONG";
-  }
+  if (countStrength === 0) return;
+
+  const strengthClasses = ["", "too-weak", "weak", "medium", "strong"];
+  const strengthTexts = ["", "TOO WEAK", "WEAK", "MEDIUM", "STRONG"];
+
+  strengthLevelContainer.classList.add(strengthClasses[countStrength]);
+  strengthLevelInfo.textContent = strengthTexts[countStrength];
 };
 
-charLengthSlider.addEventListener("input", function (e) {
+charLengthSlider.addEventListener("input", (e) => {
   const currentValue = e.target.value;
-
   const minValue = e.target.min;
   const maxValue = e.target.max;
 
-  // Percentage = (CurrentValue - MinValue) / (MaxValue - MinValue) * 100
+  // Percentage = (currentValue - MinValue) / (MaxValue - MinValue) * 100
   const currentPercentage =
     ((currentValue - minValue) / (maxValue - minValue)) * 100;
 
   charLengthNumber.textContent = currentValue;
 
   charLengthSlider.style.background = `linear-gradient(to right, var(--green-200) 0%, var(--green-200) ${currentPercentage}%, var(--black) ${currentPercentage}%, var(--black) 100%)`;
+
+  calculateStrength();
 });
 
-generateButton.addEventListener("click", function () {
+generateButton.addEventListener("click", () => {
   let password = "";
   let characterPool = "";
 
@@ -83,7 +79,6 @@ generateButton.addEventListener("click", function () {
 
   for (let i = 0; i < charLengthSlider.value; i++) {
     let characterIndex = Math.floor(Math.random() * characterPool.length);
-    // Think of Math.random() as the slider handle position (0% to 100%). Multiplying by length gives us the exact spot in the pool.
     password += characterPool[characterIndex];
   }
 
@@ -91,27 +86,22 @@ generateButton.addEventListener("click", function () {
   generatedPassword.classList.add("active");
 });
 
-allCheckboxes.forEach((checkbox) => {
-  checkbox.addEventListener("change", calculateStrength);
-});
-charLengthSlider.addEventListener("input", calculateStrength);
+allCheckboxes.forEach((checkbox) =>
+  checkbox.addEventListener("change", calculateStrength),
+);
 
-copyButton.addEventListener("click", function () {
+copyButton.addEventListener("click", () => {
   const password = generatedPassword.textContent;
 
   if (password === "" || password === "P4$5W0rD!") return;
 
   navigator.clipboard.writeText(password);
 
-  copyInfo.style.display = "block";
+  copyInfo.classList.add("active");
 
   setTimeout(() => {
-    copyInfo.style.display = "none";
+    copyInfo.classList.remove("active");
   }, 2000);
 });
 
 calculateStrength();
-
-// Trigger 'input' event to update slider background color on page load.
-const e = new Event("input");
-charLengthSlider.dispatchEvent(e);
