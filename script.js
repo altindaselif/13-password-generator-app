@@ -20,6 +20,19 @@ const lowercaseLetters = "abcdefghijklmnopqrstuvwxyz";
 const numbers = "0123456789";
 const symbols = "!@#$%^&*()_+?=";
 
+const updateSliderBackground = () => {
+  const currentValue = charLengthSlider.value;
+  const minValue = charLengthSlider.min;
+  const maxValue = charLengthSlider.max;
+
+  const currentPercentage =
+    ((currentValue - minValue) / (maxValue - minValue)) * 100;
+
+  charLengthNumber.textContent = currentValue;
+
+  charLengthSlider.style.background = `linear-gradient(to right, var(--green-200) 0%, var(--green-200) ${currentPercentage}%, var(--black) ${currentPercentage}%, var(--black) 100%)`;
+};
+
 const calculateStrength = () => {
   let countStrength = 0;
   const charLength = parseInt(charLengthSlider.value);
@@ -48,19 +61,8 @@ const calculateStrength = () => {
   strengthLevelInfo.textContent = strengthTexts[countStrength];
 };
 
-charLengthSlider.addEventListener("input", (e) => {
-  const currentValue = e.target.value;
-  const minValue = e.target.min;
-  const maxValue = e.target.max;
-
-  // Percentage = (currentValue - MinValue) / (MaxValue - MinValue) * 100
-  const currentPercentage =
-    ((currentValue - minValue) / (maxValue - minValue)) * 100;
-
-  charLengthNumber.textContent = currentValue;
-
-  charLengthSlider.style.background = `linear-gradient(to right, var(--green-200) 0%, var(--green-200) ${currentPercentage}%, var(--black) ${currentPercentage}%, var(--black) 100%)`;
-
+charLengthSlider.addEventListener("input", () => {
+  updateSliderBackground();
   calculateStrength();
 });
 
@@ -77,8 +79,13 @@ generateButton.addEventListener("click", () => {
     return;
   }
 
+  const length = parseInt(charLengthSlider.value);
+
+  const randomValues = new Uint32Array(length);
+  window.crypto.getRandomValues(randomValues);
+
   for (let i = 0; i < charLengthSlider.value; i++) {
-    let characterIndex = Math.floor(Math.random() * characterPool.length);
+    const characterIndex = randomValues[i] % characterPool.length;
     password += characterPool[characterIndex];
   }
 
@@ -105,3 +112,4 @@ copyButton.addEventListener("click", () => {
 });
 
 calculateStrength();
+updateSliderBackground();
